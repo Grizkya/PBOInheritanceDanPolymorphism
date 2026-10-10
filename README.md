@@ -1,132 +1,128 @@
-# Pewarisan dan Polimorfisme Geometri OOP Exercise
+# Pewarisan dan Polimorfisme Geometri – Latihan OOP Java
 
-Tugas ini merupakan latihan pemrograman berorientasi objek (OOP) dalam bahasa Java yang menerapkan konsep pewarisan (*inheritance*), hierarki kelas, serta pemanfaatan konstanta kelas. Program ini mengelola berbagai bentuk geometri mulai dari bentuk dasar (`Bentuk`), turunan dua dimensi (`BujurSangkar` dan `Lingkaran`), hingga bangun ruang tiga dimensi (`Silinder`). Tugas ini dikembangkan untuk memperkuat pemahaman mengenai relasi antar kelas, metode *overriding*, enkapsulasi, serta penggunaan konstruktor induk melalui kata kunci `super`.
+Latihan pemrograman berorientasi objek (OOP) dalam bahasa Java yang menerapkan konsep pewarisan (*inheritance*), hierarki kelas, dan penggunaan konstanta kelas. Program mengelola bentuk geometri mulai dari bentuk dasar (`Bentuk`), turunan dua dimensi (`BujurSangkar` dan `Lingkaran`), hingga bangun ruang tiga dimensi (`Silinder`).
+
+Tujuan latihan ini adalah memperkuat pemahaman tentang relasi antarkelas, *method overriding*, enkapsulasi, dan pemanggilan konstruktor induk dengan `super`.
 
 ---
 
-## 📂 Struktur File dan Folder
-Plaintext
+## 📂 Struktur File
 
+```plaintext
 Tugas-PBO-Geometri/
-│
-├── Bentuk.java         # Kelas induk yang mengelola atribut dan metode umum warna
-├── BujurSangkar.java   # Kelas turunan dari Bentuk untuk mengelola sisi dan luas bujur sangkar
-├── Lingkaran.java      # Kelas turunan dari Bentuk untuk mengelola radius, konstanta Math.PI, dan luas lingkaran
-├── Silinder.java       # Kelas turunan dari Lingkaran untuk mengelola tinggi dan volume silinder
-└── Main.java           # Kelas utama (main) yang menyediakan menu interaktif dengan Scanner untuk pengujian
+├── Bentuk.java         # Kelas induk: atribut dan metode umum warna
+├── BujurSangkar.java   # Turunan Bentuk: sisi dan luas bujur sangkar
+├── Lingkaran.java      # Turunan Bentuk: radius, Math.PI, dan luas lingkaran
+├── Silinder.java       # Turunan Lingkaran: tinggi dan volume silinder
+└── Main.java           # Kelas utama: menu interaktif dengan Scanner
+```
 
 ---
 
-## 🏗️ Desain & Relasi Kelas (UML Relationship)
-Arsitektur program ini menerapkan konsep *Inheritance* (Pewarisan) dalam OOP:
+## 🏗️ Desain dan Relasi Kelas
 
-- **`Bentuk`** berfungsi sebagai kelas super (*superclass*) yang memiliki atribut dasar `warna` beserta getter, setter, dan metode `printInfo()`.
-- **`BujurSangkar`** memperluas (*extends*) kelas `Bentuk`, menambahkan atribut `sisi`, perhitungan luas, serta penyesuaian metode `printInfo()`.
-- **`Lingkaran`** memperluas (*extends*) kelas `Bentuk`, menambahkan atribut `radius`, konstanta `Math.PI`, perhitungan luas, serta penyesuaian metode `printInfo()`.
-- **`Silinder`** memperluas (*extends*) kelas turunan `Lingkaran`, menambahkan atribut `tinggi`, perhitungan volume berbasis luas alas lingkaran, serta penyesuaian metode `printInfo()`.
+```plaintext
+Bentuk
+├── BujurSangkar
+└── Lingkaran
+    └── Silinder
+```
+
+| Kelas | Induk | Atribut Tambahan | Metode Utama |
+|---|---|---|---|
+| `Bentuk` | – | `warna` | `getWarna()`, `setWarna()`, `printInfo()` |
+| `BujurSangkar` | `Bentuk` | `sisi` | `hitungLuas()`, `printInfo()` |
+| `Lingkaran` | `Bentuk` | `radius` | `hitungLuas()`, `printInfo()` |
+| `Silinder` | `Lingkaran` | `tinggi` | `hitungVolume()`, `printInfo()` |
 
 ---
 
-## 🛠️ Prasyarat & Cara Menjalankan (Prerequisites & Usage)
-Pastikan perangkat komputer Anda telah terinstal perangkat lunak berikut sebelum menjalankan program:
+## 🛠️ Prasyarat
 
-- Java Development Kit (JDK) versi 8 atau versi terbaru.
-- Text editor atau IDE pilihan Anda (seperti IntelliJ IDEA, VS Code, atau Eclipse).
+- Java Development Kit (JDK) 8 atau lebih baru
+- Text editor atau IDE (IntelliJ IDEA, VS Code, Eclipse, dll.)
 
-**Langkah-langkah Kompilasi dan Eksekusi via Terminal/CMD:**
-1. Simpan kelima file kelas (`Bentuk.java`, `BujurSangkar.java`, `Lingkaran.java`, `Silinder.java`, dan `Main.java`) ke dalam satu direktori folder yang sama (misalnya `Tugas-PBO-Geometri`).
-2. Buka terminal atau Command Prompt, lalu arahkan direktori ke folder tersebut:
-   ```bash
+## ▶️ Cara Menjalankan
+
+1. Simpan kelima file (`Bentuk.java`, `BujurSangkar.java`, `Lingkaran.java`, `Silinder.java`, `Main.java`) dalam satu folder, misalnya `Tugas-PBO-Geometri`.
+
+2. Buka terminal/CMD dan masuk ke folder tersebut:
+```bash
    cd path/to/Tugas-PBO-Geometri
-
 ```
 
-3. Kompilasi seluruh berkas kode sumber Java secara bersamaan:
+3. Kompilasi semua file sekaligus:
 ```bash
-javac *.java
-
+   javac *.java
 ```
 
-
-4. Jalankan program utama melalui kelas eksekusi `Main`:
+4. Jalankan program:
 ```bash
-java Main
-
+   java Main
 ```
-
-
 
 ---
 
-## 💡 Penjelasan Kode & Konsep OOP
+## 💡 Penjelasan Kode dan Konsep OOP
 
-1. **`Bentuk.java`**
-* **Atribut:** `warna` (tipe data `String`) dengan hak akses `protected` agar dapat diakses langsung oleh kelas-kelas turunannya.
-* **Konstruktor:** Menginisialisasi nilai warna pada objek bentuk.
-* **Metode Utama:**
-* `getWarna()` & `setWarna(String warna)`: Mengambil dan mengubah informasi warna.
-* `printInfo()`: Menampilkan informasi dasar bentuk berwarna.
+### 1. `Bentuk.java`
+- **Atribut:** `warna` (`String`), bersifat `protected` agar dapat diakses kelas turunan.
+- **Konstruktor:** menginisialisasi nilai warna.
+- **Metode:**
+  - `getWarna()` dan `setWarna(String warna)`: mengambil dan mengubah warna.
+  - `printInfo()`: menampilkan informasi dasar bentuk.
 
+### 2. `BujurSangkar.java`
+- **Atribut:** `sisi` (`double`).
+- **Konstruktor:** menerima `sisi` dan `warna`, lalu meneruskan `warna` ke induk dengan `super(warna)`.
+- **Metode:**
+  - `hitungLuas()`: menghitung luas bujur sangkar.
+  - `printInfo()`: ber-anotasi `@Override`, menampilkan informasi bujur sangkar beserta luasnya.
 
+### 3. `Lingkaran.java`
+- **Atribut:**
+  - `radius` (`double`): jari-jari lingkaran.
+  - `PHI` (`static final double`): konstanta kelas bernilai `3.14`, digunakan untuk perhitungan luas.
+- **Konstruktor:** menginisialisasi `radius` dan meneruskan `warna` ke induk via `super(warna)`.
+- **Metode:**
+  - `hitungLuas()`: menghitung luas dengan rumus π × radius².
+  - `printInfo()`: menampilkan informasi lingkaran beserta luasnya.
 
+### 4. `Silinder.java`
+- **Atribut:** `tinggi` (`double`).
+- **Konstruktor:** menginisialisasi `tinggi`, `radius`, dan `warna` dengan memanggil konstruktor `Lingkaran`.
+- **Metode:**
+  - `hitungVolume()`: mengalikan hasil `hitungLuas()` dari `Lingkaran` dengan `tinggi`.
+  - `printInfo()`: menampilkan informasi silinder beserta volumenya.
 
-2. **`BujurSangkar.java`**
-* **Atribut:** `sisi` (tipe data `double`).
-* **Konstruktor:** Menerima parameter sisi dan warna, serta meneruskan parameter warna ke kelas induk menggunakan `super(warna)`.
-* **Metode Utama:**
-* `hitungLuas()`: Menghitung luas bujur sangkar.
-* `printInfo()`: Menggunakan anotasi `@Override` untuk menampilkan informasi spesifik bujur sangkar beserta hasil perhitungan luasnya.
-
-
-
-
-3. **`Lingkaran.java`**
-* **Atribut:** `radius` (tipe data `double`) serta pemanfaatan konstanta bawaan Java `Math.PI` untuk akurasi perhitungan.
-* **Konstruktor:** Menginisialisasi radius dan mewariskan atribut warna ke kelas induk via `super(warna)`.
-* **Metode Utama:**
-* `hitungLuas()`: Menghitung luas lingkaran menggunakan rumus $\pi \times radius^2$.
-* `printInfo()`: Menampilkan informasi lingkaran beserta hasil luasnya.
-
-
-
-
-4. **`Silinder.java`**
-* **Atribut:** `tinggi` (tipe data `double`).
-* **Konstruktor:** Menginisialisasi `tinggi`, `radius`, dan `warna` dengan memanggil konstruktor kelas induknya (`Lingkaran`).
-* **Metode Utama:**
-* `hitungVolume()`: Menghitung volume silinder dengan mengalikan hasil `hitungLuas()` dari kelas `Lingkaran` dengan `tinggi`.
-* `printInfo()`: Menampilkan informasi silinder beserta volume akhirnya.
-
-
-
-
-5. **`Main.java`**
-* Menyediakan menu interaktif berbasis teks menggunakan `java.util.Scanner` yang memungkinkan pengguna memilih pembuatan objek (Bujur Sangkar, Lingkaran, atau Silinder), memasukkan input dinamis, dan melihat hasil eksekusi program secara langsung.
-
-
+### 5. `Main.java`
+Menyediakan menu interaktif berbasis teks dengan `java.util.Scanner`. Pengguna dapat membuat objek Bujur Sangkar, Lingkaran, atau Silinder, memasukkan data, dan langsung melihat hasilnya.
 
 ---
 
-## 🚀 Hasil Eksekusi (Output)
+## 🚀 Hasil Eksekusi
 
-Ketika program `Main.java` dijalankan dan menu interaktif dioperasikan, contoh keluaran pada terminal adalah sebagai berikut:
+**Menu 1 – Bujur Sangkar**
 
-Menu 1 (Bujur Sangkar)
-<img width="362" height="252" alt="image" src="https://github.com/user-attachments/assets/273c84f9-f007-4b88-9e9b-3633b1edc482" />
+<img width="362" height="252" alt="Menu 1 - Bujur Sangkar" src="https://github.com/user-attachments/assets/273c84f9-f007-4b88-9e9b-3633b1edc482" />
 
-Menu 2 (Lingkaran)
-<img width="356" height="245" alt="image" src="https://github.com/user-attachments/assets/dba00e4f-23b2-48b8-b7b9-3fa52acaac79" />
+**Menu 2 – Lingkaran**
 
-Menu 3 (Silinder)
-<img width="441" height="271" alt="image" src="https://github.com/user-attachments/assets/2b292f3a-2df5-4b14-860e-4ddfac6156bd" />
+<img width="356" height="245" alt="Menu 2 - Lingkaran" src="https://github.com/user-attachments/assets/dba00e4f-23b2-48b8-b7b9-3fa52acaac79" />
 
-Menu 4 (Keluar)
-<img width="347" height="205" alt="image" src="https://github.com/user-attachments/assets/19716039-df27-44bc-8334-fec0961084b0" />
+**Menu 3 – Silinder**
+
+<img width="441" height="271" alt="Menu 3 - Silinder" src="https://github.com/user-attachments/assets/2b292f3a-2df5-4b14-860e-4ddfac6156bd" />
+
+**Menu 4 – Keluar**
+
+<img width="347" height="205" alt="Menu 4 - Keluar" src="https://github.com/user-attachments/assets/19716039-df27-44bc-8334-fec0961084b0" />
 
 ---
 
 ## 👩‍💻 Author
 
-Nama: Ghaitsa Rizky Amalia
-
-NIM: F1D02510052
+| | |
+|---|---|
+| **Nama** | Ghaitsa Rizky Amalia |
+| **NIM** | F1D02510052 |
